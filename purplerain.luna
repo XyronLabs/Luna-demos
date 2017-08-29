@@ -1,7 +1,7 @@
 local drops = {}
 
 function setup()
-    size(1280, 720, "Purple rain demo")
+    size(1280, 768, "Purple rain demo")
 
     for i = 1, 1000 do
         table.insert(drops, { x = math.random(0, width), y = math.random(-500, -50), speed = math.random(0, 30) / 30, g = math.random(1, 20) / 20 })
