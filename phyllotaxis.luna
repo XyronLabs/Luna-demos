@@ -3,19 +3,20 @@ local c = 5
 local angle = 137.5
 
 function setup()
-    size(800, 600, "Phyllotaxis")
+    size(1920, 1080, "Phyllotaxis")
+    frameRate(0)
 end
 
 function render()
 
     local a = n * angle
-    local radius = c * math.sqrt(n);
+    local radius = c * math.sqrt(n)
 
     local x = radius * math.cos(a) + width / 2
     local y = radius * math.sin(a) + height / 2
-
-    color(hue(n / (width * 4)))
-    ellipse(x, y, 4, 4)
-
+    
     n = n + 1
+
+    color(hue( math.abs(math.sin( (x-y) / (x+y) )) ))
+    ellipse(x, y, 4, 4)
 end
