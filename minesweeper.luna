@@ -63,7 +63,7 @@ function cell:new(x, y)
     self.isMine = math.random() > 0.9
     self.isRevealed = false
     self.locked = false
-    self.renderer = rectangleShape:new{ x = (x - 1) * scale, y = (y - 1) * scale, width = scale, height = scale, color = colors.black, texture = nil }
+    self.renderer = rectangleShape:new{ x = (x - 1) * scale, y = (y - 1) * scale, width = scale, height = scale, color = colors.black, outline_thickness = 1, outline_color = 0xAAAAAAFF }
 
     setmetatable(self, { __index = cell })
     return self
@@ -85,9 +85,10 @@ function cell:render()
         end
 
     elseif self.locked then
-        color(colors.red)
-        rect( (self.x-1) * scale, (self.y-1) * scale, scale, scale)
+        self.renderer:setColor(colors.red)
+        self.renderer:render()
     else
+        self.renderer:setColor(colors.black)
         self.renderer:render()
     end
 
