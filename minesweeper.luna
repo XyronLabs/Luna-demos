@@ -81,7 +81,7 @@ function cell:render()
             text(self.count, math.floor(scale*0.9), (self.x-1) * scale + scale / 5, (self.y-1) * scale)
         elseif self.isMine then
             color(colors.black)
-            ellipse((self.x-1) * scale, (self.y-1) * scale + scale / 5, scale*0.35, scale*0.35)
+            ellipse((self.x-1) * scale + scale / 7, (self.y-1) * scale + scale / 7, scale*0.35, scale*0.35)
         end
 
     elseif self.locked then
