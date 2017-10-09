@@ -63,6 +63,7 @@ function cell:new(x, y)
     self.isMine = math.random() > 0.9
     self.isRevealed = false
     self.locked = false
+    self.renderer = rectangleShape:new{ x = (x - 1) * scale, y = (y - 1) * scale, width = scale, height = scale, color = colors.black, texture = nil }
 
     setmetatable(self, { __index = cell })
     return self
@@ -71,8 +72,9 @@ end
 function cell:render()
     if self.isRevealed then
         self:neighbors()
-        color(colors.white)
-        rect( (self.x-1) * scale, (self.y-1) * scale, scale, scale)
+
+        self.renderer:setColor(colors.white)
+        self.renderer:render()
 
         if self.count and not self.isMine then
             color(colors.black)
@@ -86,8 +88,7 @@ function cell:render()
         color(colors.red)
         rect( (self.x-1) * scale, (self.y-1) * scale, scale, scale)
     else
-        color(colors.black)
-        rect( (self.x-1) * scale, (self.y-1) * scale, scale, scale)
+        self.renderer:render()
     end
 
     if lost then
