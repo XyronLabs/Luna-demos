@@ -47,8 +47,6 @@ function input()
     elseif not mousekeys['Left'] and not mousekeys['Right'] and mousekeys ~= nil then
         lastmousestate = nil
     end
-
-    if keys['A'] then print(lastmousestate) end
 end
 
 
