@@ -91,6 +91,8 @@ function cell:render()
     end
 
     if lost then
+        color(colors.red)
+        text("Game over!", 72, width / 9, 20)
         noLoop()
     end
     
