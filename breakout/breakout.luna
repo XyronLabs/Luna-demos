@@ -8,6 +8,9 @@ local frames = 0
 local popSound
 local highScoreBox, highscoreConf
 
+local velx = 0
+local mouseX, mouseY = 0, 0
+
 function newBrick(x, y)
 	return rectangleShape:new{ x = x, y = y, width = 40, height = 20, texture = "test/textures/brick.png" }
 end
@@ -30,11 +33,11 @@ function setup()
 end
 
 function render()
-	
+
 	if ball.x + ball.radius * 2  >= width or ball.x <= 0 then
 		ball.dirx = ball.dirx * -1
 	end
-    
+
 	if ball.y <= 0 then
 		ball.diry = ball.diry * -1
 	end
@@ -57,7 +60,7 @@ function render()
 
 	clear()
 
-	
+
 	for k, v in pairs(bricks) do
 		v:setColor(hsva(frames % 1, 1, 1, 1))
 		if ball.y <= v.y + v.height and ball.y + ball.radius * 2 >= v.y
@@ -69,6 +72,12 @@ function render()
 		v:render()
 	end
 
+    player:setPos(player.x + velx)
+
+    if mouseMoving then
+        player:setPos(mouseX - player.width / 2, mouseY - player.height / 2)
+    end
+
 	color(0xaaaaaaff)
 	ball:render()
 	player:render()
@@ -76,20 +85,33 @@ function render()
 	highScoreBox:render()
 
 	frames = frames + 0.001
-	
+
 end
 
-function input()
-	if keys['Left']  then player:setPos(player.x - 10) end
-	if keys['Right'] then player:setPos(player.x + 10) end
-	
-	if mousekeys['Left'] then player:setPos(mouseX - player.width / 2, mouseY - player.height / 2) end
+function input(event)
+    if event.type == events.key.pressed then
+        if keys[event.key] == 'Left' then
+            velx = -10
+        elseif keys[event.key] == 'Right' then
+            velx = 10
 
-	if keys['Escape'] then
-		if 105 - #bricks > tonumber(highscoreConf:get('highscore')) then
-			highscoreConf:set('highscore', 105 - #bricks)
-			highscoreConf:saveAll()
-		end
-		exit()
-	end
+        elseif keys[event.key] == 'Escape' then
+            if 105 - #bricks > tonumber(highscoreConf:get('highscore')) then
+                highscoreConf:set('highscore', 105 - #bricks)
+                highscoreConf:saveAll()
+            end
+            exit()
+        end
+
+    elseif event.type == events.key.released then
+        velx = 0
+
+    elseif event.type == events.mouse.button.pressed and mousekeys[event.button] == 'Left' then
+        mouseMoving = true
+    elseif event.type == events.mouse.button.released and mousekeys[event.button] == 'Left' then
+        mouseMoving = false
+
+    elseif event.type == events.mouse.moved then
+        mouseX, mouseY = event.x, event.y
+    end
 end
