@@ -30,10 +30,15 @@ end
 function render()
     clear()
 
-    for i = 1, cols do
-        for j = 1, rows do
-            grid[i][j]:render()
+    if not lost then
+        for i = 1, cols do
+            for j = 1, rows do
+                grid[i][j]:render()
+            end
         end
+    else
+        color(colors.red)
+        text("Game over!", 72, width / 9, 20)
     end
 end
 
@@ -92,13 +97,6 @@ function cell:render()
         self.renderer:setColor(colors.black)
         self.renderer:render()
     end
-
-    if lost then
-        color(colors.red)
-        text("Game over!", 72, width / 9, 20)
-        noLoop()
-    end
-
 end
 
 function cell:clicked()
